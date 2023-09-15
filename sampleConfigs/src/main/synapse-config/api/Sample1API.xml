@@ -4,7 +4,7 @@
         <inSequence>
             <payloadFactory media-type="json">
                 <format>{&#xd;
-"message":"sample 2 commit"&#xd;
+"message":"sample 3 commit"&#xd;
 }</format>
                 <args/>
             </payloadFactory>
