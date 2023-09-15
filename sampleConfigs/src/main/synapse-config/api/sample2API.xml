@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample2" name="sample2API" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST GET" uri-template="/second">
+        <inSequence>
+            <call>
+                <endpoint key="samaple1EP"/>
+            </call>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

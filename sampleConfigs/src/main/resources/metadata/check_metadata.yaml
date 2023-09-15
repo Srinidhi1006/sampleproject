@@ -1,0 +1,11 @@
+---
+key: "check-1.0.0"
+name : "check"
+displayName : "check"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/check"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

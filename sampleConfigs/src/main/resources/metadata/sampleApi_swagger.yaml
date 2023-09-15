@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: sampleApi
+  description: API Definition of sampleApi
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/sample
+paths:
+  /:
+    get:
+      responses:
+        default:
+          description: Default response
+  /script:
+    get:
+      responses:
+        default:
+          description: Default response
+  /getpropertyscript:
+    get:
+      responses:
+        default:
+          description: Default response

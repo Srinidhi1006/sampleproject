@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/check" name="check" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <propertyGroup>
+                <property expression="get-property(query.param.buildingno)" name="buildingno" scope="default" type="STRING"/>
+                <property expression="get-property(query.param.additionalno)" name="additionalno" scope="default" type="STRING"/>
+                <property expression="get-property(query.param.zipcode)" name="zipcode" scope="default" type="STRING"/>
+            </propertyGroup>
+            <script language="js"><![CDATA[var buildingno= mc.getProperty("buildingno");
+if(isNaN(buildingno))
+{
+var response={
+	"totalSearchResults": "0",
+	"Addresses": [],
+	"PostCode": null,
+	"success": true,
+	"result": null,
+	"statusdescription": "NO-RESULTS-buildingno",
+	"fullexception": null
+}
+mc.setPayloadJSON(response);
+}
+else{
+var isbuildingnovalid=true
+mc.setProperty("isbuildingnovalid",isbuildingnovalid);
+}
+
+var additionalno= mc.getProperty("additionalno");
+if(isNaN(additionalno))
+{
+var response={
+	"totalSearchResults": "0",
+	"Addresses": [],
+	"PostCode": null,
+	"success": true,
+	"result": null,
+	"statusdescription": "NO-RESULTS-additionalno",
+	"fullexception": null
+}
+mc.setPayloadJSON(response);
+}
+else
+{var isadditionalnovalid=true
+mc.setProperty("isadditionalnovalid",isadditionalnovalid);
+}
+
+var zipcode= mc.getProperty("zipcode");
+if(isNaN(zipcode))
+{
+var response=
+{
+	"totalSearchResults": "0",
+	"Addresses": [],
+	"PostCode": null,
+	"success": true,
+	"result": null,
+	"statusdescription": "NO-RESULTS-zipcode",
+	"fullexception": null
+}
+mc.setPayloadJSON(response);
+}
+else
+{
+var isazipcodevalid=true
+mc.setProperty("isazipcodevalid",isazipcodevalid);
+}]]></script>
+            <log level="custom" separator="  afterfilter  ">
+                <property expression="boolean(get-property('isbuildingnovalid') and get-property('isadditionalnovalid') and get-property('isazipcodevalid'))" name="expression"/>
+                <property expression="get-property('isbuildingnovalid')" name="isbuildingnovalid"/>
+                <property expression="get-property('isadditionalnovalid')" name="isadditionalnovalid"/>
+                <property expression="get-property('isazipcodevalid')" name="isazipcodevalid"/>
+            </log>
+            <filter regex="true" source="boolean(get-property('isbuildingnovalid') and get-property('isadditionalnovalid') and get-property('isazipcodevalid'))">
+                <then>
+                    <payloadFactory media-type="json">
+                        <format>{&#xd;
+"messgae":"valid numbers"&#xd;
+}</format>
+                        <args/>
+                    </payloadFactory>
+                </then>
+                <else>
+                    <payloadFactory media-type="json">
+                        <format>{&#xd;
+"message":"entered string values"&#xd;
+}</format>
+                        <args/>
+                    </payloadFactory>
+                </else>
+            </filter>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/servicecategoryid">
+        <inSequence>
+            <propertyGroup>
+                <property expression="get-property('query.param.servicecategoryid')" name="servicecategoryid" scope="default" type="STRING"/>
+            </propertyGroup>
+            <filter regex="true" source="boolean($ctx:servicecategoryid)">
+                <then>
+                    <log level="full" separator="  ******success*****  "/>
+                </then>
+                <else>
+                    <log level="full" separator="  ****fail***  "/>
+                </else>
+            </filter>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

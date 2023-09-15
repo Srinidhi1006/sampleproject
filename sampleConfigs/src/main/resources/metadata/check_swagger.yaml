@@ -1,0 +1,18 @@
+openapi: 3.0.1
+info:
+  title: check
+  description: API Definition of check
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/check
+paths:
+  /:
+    get:
+      responses:
+        default:
+          description: Default response
+  /servicecategoryid:
+    get:
+      responses:
+        default:
+          description: Default response

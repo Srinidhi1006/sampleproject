@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample1" name="Sample1API" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST GET" uri-template="/first">
+        <inSequence>
+            <payloadFactory media-type="json">
+                <format>{&#xd;
+"message":"first"&#xd;
+}</format>
+                <args/>
+            </payloadFactory>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

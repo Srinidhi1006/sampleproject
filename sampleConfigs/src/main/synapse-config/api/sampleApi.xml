@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample" name="sampleApi" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <property name="disableAddressingForOutMessages" scope="axis2" type="STRING" value="true"/>
+            <property name="PRESERVE_WS_ADDRESSING" scope="default" type="STRING" value="true"/>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope format="soap11" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <getCustomerFullNameV2 xmlns="http://ws.sp.com.sa">
+                                <LocationX>$1</LocationX>
+                                <LocationY>$2</LocationY>
+                                <LocationZ>$3</LocationZ>
+                                <UserName>intrgis</UserName>
+                                <Password>123456</Password>
+                            </getCustomerFullNameV2>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('query.param.LocationX')"/>
+                    <arg evaluator="xml" expression="get-property('query.param.LocationY')"/>
+                    <arg evaluator="xml" expression="get-property('query.param.LocationZ')"/>
+                </args>
+            </payloadFactory>
+            <property name="messageType" scope="axis2" type="STRING" value="text/xml"/>
+            <property name="ContentType" scope="axis2" type="STRING" value="text/xml"/>
+            <property name="CONTENT_TYPE" scope="axis2" type="STRING" value="text/xml"/>
+            <property name="Content-Length" scope="axis2" type="STRING" value="10000"/>
+            <call>
+                <endpoint>
+                    <http format="soap11" method="post" uri-template="http://rhtsteai01/ws_CustNameByXYZ/Service.asmx?op=getCustomerFullNameV2">
+                        <timeout>
+                            <duration>17000000</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </call>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/script">
+        <inSequence>
+            <property name="abc" scope="default" type="STRING" value="3908|12991|8522;8228|12643|2121;8118|12993|1212;822||;2424|21211|;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;3908|12991|8522;"/>
+            <script language="js"><![CDATA[var address = mc.getProperty("abc");
+var log=mc.getServiceLog()
+var address1=address.split(";");
+log.info(address1);
+mc.setProperty("array",address1);]]></script>
+            <log level="custom">
+                <property expression="get-property('array')" name="array"/>
+                <property expression="get-property('newarray')" name="newarray"/>
+            </log>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/getpropertyscript">
+        <inSequence>
+            <property name="key" scope="default" type="STRING" value="srinidhi"/>
+            <script language="js"><![CDATA[var key=mc.getProperty('key');
+var key1= key;
+mc.setProperty('key1',key1);]]></script>
+            <log level="custom">
+                <property expression="get-property('key1')" name="key1"/>
+            </log>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
