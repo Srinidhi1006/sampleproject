@@ -4,7 +4,11 @@
         <inSequence>
             <payloadFactory media-type="json">
                 <format>{&#xd;
+<<<<<<< HEAD
 "message":"fourth commit"&#xd;
+=======
+"message":"second"&#xd;
+>>>>>>> parent of 0acc257 (Revert "sec commit")
 }</format>
                 <args/>
             </payloadFactory>
